@@ -223,6 +223,17 @@ fetch('data/puntos.json')
     .then(puntos => {
         todosLosPuntos = puntos;
         renderizarPuntos();
+        if (puntoParametro) {
+            const puntoEncontrado = todosLosPuntos.find(p => p.id === puntoParametro);
+            if (puntoEncontrado) {
+                map.setView([puntoEncontrado.y, puntoEncontrado.x], 1);
+                L.popup()
+                    .setLatLng([puntoEncontrado.y, puntoEncontrado.x])
+                    .setContent(`<b>${puntoEncontrado.nombre}</b><br>${puntoEncontrado.descripcion}`)
+                    .openOn(map);
+
+            }
+            
     })
     //Captura cualquier error que ocurra durante la carga de los puntos y lo muestra en la consola
     .catch(error => console.error('Error cargando puntos:', error));
@@ -247,8 +258,8 @@ async function cargarPuntosDesdeFirestore() {
         console.error("Error cargando puntos desde Firestore:", error);
     }
     
-}*/
-//cargarPuntosDesdeFirestore();
+}
+//cargarPuntosDesdeFirestore();*/
 
 //Agrega un evento de clic a cada botón de filtro que, al ser clicado, elimina la clase 'activo' de todos los botones, agrega la clase 'activo' al botón clicado y llama a la función "renderizarPuntos" con la categoría seleccionada para actualizar el mapa y la lista lateral según el filtro aplicado.
 botonesFiltro.forEach(boton => {
@@ -337,16 +348,3 @@ map.on('click', function (e) {
     console.log(`x: ${x}, y: ${y}`);
 });*/
 
-const urlParams = new URLSearchParams(window.location.search);
-const puntoParametro = params.get('p');
-if (puntoParametro) {
-    const botonTodos = todosLosPuntos.find(p => p.id === puntoParametro);
-    if (botonTodos) {
-        map.setView([botonTodos.lat, botonTodos.lng], 1);
-
-        L.popup()
-            .setLatLng([botonTodos.lat, botonTodos.lng])
-            .setContent(`<b${puntoParametro.nombre}</b>`)
-            .openOn(map);
-    }
-}
