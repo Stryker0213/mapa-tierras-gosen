@@ -233,10 +233,8 @@ fetch('data/puntos.json')
                     .openOn(map);
 
             }
-            
-    })
-    //Captura cualquier error que ocurra durante la carga de los puntos y lo muestra en la consola
-    .catch(error => console.error('Error cargando puntos:', error));
+        } 
+    }).catch(error => console.error('Error cargando puntos:', error));
    
    
     /*
