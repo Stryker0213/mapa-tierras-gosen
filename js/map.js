@@ -336,7 +336,8 @@ map.on('click', function (e) {
 
     console.log(`x: ${x}, y: ${y}`);
 });*/
-const params = new URLSearchParams(window.location.search);
+
+const urlParams = new URLSearchParams(window.location.search);
 const puntoParametro = params.get('p');
 if (puntoParametro) {
     const botonTodos = todosLosPuntos.find(p => p.id === puntoParametro);
