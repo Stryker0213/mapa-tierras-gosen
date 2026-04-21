@@ -1,64 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bienvenido | Tierras Gosén</title>
-  <link rel="stylesheet" href="css/bienvenida.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo Tierras Gosén</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
+    
+<div class="container">
+    <button id="toggle-sidebar" class="toggle-flotante">☰</button>
+    <aside class="sidebar">
+        <h2>Puntos de interés</h2>
 
-  <section class="hero">
-    <div class="video-background">
-      <iframe
-        src="https://www.youtube.com/embed/HuHjwloGzKA?autoplay=1&mute=1&loop=1&playlist=HuHjwloGzKA"
-        title="Video de bienvenida"
-        frameborder="0"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-      </iframe>
-    </div>
-
-    <div class="overlay"></div>
-
-    <div class="hero-content">
-      <div class="hero-card">
-        <p class="eyebrow">Mapa Interactivo</p>
-        <h1>Tierras Gosén</h1>
-        <p class="description">
-          Explora senderos, alojamientos, miradores y experiencias a través de una
-          plataforma interactiva diseñada para orientar a los visitantes dentro de la propiedad.
-        </p>
-
-        <div class="hero-actions">
-          <a href="index.html" class="btn btn-primary">Entrar al mapa</a>
-          <a href="https://maps.app.goo.gl/wZyaDkqFVovWxBH16" target="_blank" class="btn btn-secondary">
-            Ver ubicación
-          </a>
-        </div>
-      </div>
-
-      <div class="info-panel">
-        <div class="info-box">
-          <h2>Conecta con nosotros</h2>
-          <div class="social-links">
-            <a href="https://www.instagram.com/tierrasgosen/" target="_blank" class="social-btn">Instagram</a>
-            <a href="https://www.facebook.com/profile.php?id=61565432173115" target="_blank" class="social-btn">Facebook</a>
-            <a href="https://api.whatsapp.com/send/?phone=50688782626&text&type=phone_number&app_absent=0" target="_blank" class="social-btn">Contacto  </a>
-            <a href="https://www.tiktok.com/@tierrasgosen?is_from_webapp=1&sender_device=pc" target="_blank" class="social-btn">TikTok</a>
-          </div>
+        <div class="buscador-wrapper">
+            <span class="buscador-icono">🔍</span>
+            <input  
+                type="text" 
+                id="buscador-puntos" 
+                placeholder="Buscar punto de interés..."
+            >
         </div>
 
-        <div class="info-box">
-          <h2>Antes de comenzar</h2>
-          <p>
-            Ingresa al mapa para consultar los puntos de interés, ubicar zonas importantes
-            y explorar la propiedad desde tu dispositivo móvil o computadora.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+        <h3>Filtrar por categoría</h3>
 
+        <div class="filtros">
+            <button class="filtro-btn activo" data-categoria="todos">Todos</button>
+            <button class="filtro-btn" data-categoria="alojamiento">Alojamiento</button>
+            <button class="filtro-btn" data-categoria="educativo">Educativo</button>
+            <button class="filtro-btn" data-categoria="mirador">Mirador</button>
+            <button class="filtro-btn" data-categoria="sendero">Senderos</button>
+            <button class="filtro-btn" data-categoria="experiencia">Experiencias</button>
+        </div>
+
+        <ul id="lista-puntos"></ul>
+    </aside>
+
+    <main class="map-container">
+        <h1>Mapa Interactivo Tierras Gosén</h1>
+        <div id="map"></div>
+    </main>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.js"></script>
+<script src="js/map.js"></script>
+    
 </body>
 </html>
