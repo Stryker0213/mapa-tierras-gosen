@@ -1,7 +1,3 @@
-//import { initializeFirebase } from '/js/firebase-config.js';
-//import {collection, getDocs} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-
-
 //Inicializa el mapa utilizando Leaflet, estableciendo un sistema de coordenadas simple y agregando un control de pantalla completa. Luego, carga una imagen como capa del mapa y ajusta la vista para mostrar toda el área del mapa.
 var map = L.map('map', {
     crs: L.CRS.Simple,
