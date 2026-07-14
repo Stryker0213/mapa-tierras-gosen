@@ -1,0 +1,8 @@
+{
+  "name": "mapa-tierras-gosen",
+  "private": true,
+  "scripts": {
+    "check": "node --check js/map.js && node --check js/filters.js && node --check js/firebase-config.js && node scripts/validate-content.mjs && node --test",
+    "test": "node --test"
+  }
+}

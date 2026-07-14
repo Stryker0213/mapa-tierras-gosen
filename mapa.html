@@ -1,54 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Interactivo Tierras Gosén</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#071c16">
+  <meta name="description" content="Mapa interactivo de alojamientos, senderos, miradores y experiencias en Tierras Gosén.">
+  <title>Mapa interactivo | Tierras Gosén</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
+<body class="map-page">
+  <main class="map-shell" aria-label="Mapa interactivo de Tierras Gosén">
+    <header class="map-topbar">
+      <a class="map-brand" href="index.html" aria-label="Volver al inicio de Tierras Gosén">
+        <span class="map-brand-mark"><img src="assets/icons/icons8-hoja-48.png" alt=""></span>
+        <span>
+          <small>Explora el territorio</small>
+          <strong>Tierras Gosén</strong>
+        </span>
+      </a>
+      <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Inicio</a>
+    </header>
 
-<body>
-    
-<div class="container">
-    <button id="toggle-sidebar" class="toggle-flotante">☰</button>
-    <aside class="sidebar">
-        <h2>Puntos de interés</h2>
+    <section class="map-tools" aria-label="Buscar y filtrar lugares">
+      <label class="search-field" for="buscador-puntos">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input
+          type="search"
+          id="buscador-puntos"
+          autocomplete="off"
+          placeholder="Buscar un lugar o experiencia"
+        >
+      </label>
 
-        <div class="buscador-wrapper">
-            <span class="buscador-icono">🔍</span>
-            <input  
-                type="text" 
-                id="buscador-puntos" 
-                placeholder="Buscar punto de interés..."
-            >
+      <nav class="filtros" aria-label="Filtrar por categoría">
+        <button class="filtro-btn activo" type="button" data-categoria="todos" aria-pressed="true">Todos</button>
+        <button class="filtro-btn" type="button" data-categoria="alojamiento" aria-pressed="false">Alojamiento</button>
+        <button class="filtro-btn" type="button" data-categoria="educativo" aria-pressed="false">Educativo</button>
+        <button class="filtro-btn" type="button" data-categoria="mirador" aria-pressed="false">Miradores</button>
+        <button class="filtro-btn" type="button" data-categoria="sendero" aria-pressed="false">Senderos</button>
+        <button class="filtro-btn" type="button" data-categoria="experiencia" aria-pressed="false">Experiencias</button>
+      </nav>
+    </section>
+
+    <section class="map-container">
+      <h1 class="sr-only">Mapa interactivo de Tierras Gosén</h1>
+      <div id="map"></div>
+    </section>
+
+    <aside id="sidebar-puntos" class="sidebar" aria-label="Lugares encontrados">
+      <span class="sheet-handle" aria-hidden="true"></span>
+      <div class="sidebar-heading">
+        <div>
+          <p class="sidebar-eyebrow">Cerca de ti</p>
+          <h2>Elige tu próxima parada</h2>
+          <p id="resultados-contador" class="results-count" aria-live="polite">Cargando lugares…</p>
         </div>
-
-        <h3>Filtrar por categoría</h3>
-
-        <div class="filtros">
-            <button class="filtro-btn activo" data-categoria="todos">Todos</button>
-            <button class="filtro-btn" data-categoria="alojamiento">Alojamiento</button>
-            <button class="filtro-btn" data-categoria="educativo">Educativo</button>
-            <button class="filtro-btn" data-categoria="mirador">Mirador</button>
-            <button class="filtro-btn" data-categoria="sendero">Senderos</button>
-            <button class="filtro-btn" data-categoria="experiencia">Experiencias</button>
-        </div>
-
-        <ul id="lista-puntos"></ul>
+        <button
+          id="toggle-sidebar"
+          class="sheet-toggle"
+          type="button"
+          aria-controls="lista-puntos"
+          aria-expanded="true"
+          aria-label="Ocultar resultados"
+        ><span aria-hidden="true">⌄</span></button>
+      </div>
+      <ul id="lista-puntos"></ul>
     </aside>
+  </main>
 
-    <main class="map-container">
-        <h1>Mapa Interactivo Tierras Gosén</h1>
-        <div id="map"></div>
-    </main>
-</div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.js"></script>
-<script src="js/map.js"></script>
-    
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/map.js"></script>
 </body>
 </html>

@@ -2,63 +2,66 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bienvenido | Tierras Gosén</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#071c16">
+  <meta name="description" content="Explora alojamientos, senderos, miradores y experiencias de Tierras Gosén.">
+  <title>Tierras Gosén | Explora la naturaleza</title>
   <link rel="stylesheet" href="css/bienvenida.css">
 </head>
 <body>
+  <main class="hero">
+    <img
+      class="hero-background"
+      src="images/ImagenesMirador/ImagesMiradorAtardecer.jpg"
+      alt="Atardecer desde Tierras Gosén"
+      fetchpriority="high"
+    >
+    <div class="hero-overlay" aria-hidden="true"></div>
 
-  <section class="hero">
-    <div class="video-background">
-      <iframe
-        src="https://www.youtube.com/embed/HuHjwloGzKA?autoplay=1&mute=1&loop=1&playlist=HuHjwloGzKA"
-        title="Video de bienvenida"
-        frameborder="0"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-      </iframe>
-    </div>
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Tierras Gosén, inicio">
+        <span class="brand-mark"><img src="assets/icons/icons8-hoja-48.png" alt=""></span>
+        <span>
+          <small>Explora el territorio</small>
+          <strong>Tierras Gosén</strong>
+        </span>
+      </a>
+      <a class="header-action" href="mapa.html">Abrir mapa</a>
+    </header>
 
-    <div class="overlay"></div>
+    <section class="hero-content">
+      <p class="eyebrow">Naturaleza · descanso · aventura</p>
+      <h1>Encuentra tu próxima parada.</h1>
+      <p class="description">
+        Descubre la propiedad a tu ritmo: ubica alojamientos, senderos, miradores
+        y experiencias desde un mapa pensado para acompañarte en el recorrido.
+      </p>
 
-    <div class="hero-content">
-      <div class="hero-card">
-        <p class="eyebrow">Mapa Interactivo</p>
-        <h1>Tierras Gosén</h1>
-        <p class="description">
-          Explora senderos, alojamientos, miradores y experiencias a través de una
-          plataforma interactiva diseñada para orientar a los visitantes dentro de la propiedad.
-        </p>
-
-        <div class="hero-actions">
-          <a href="mapa.html" class="btn btn-primary">Entrar al mapa</a>
-          <a href="https://maps.app.goo.gl/wZyaDkqFVovWxBH16" target="_blank" class="btn btn-secondary">
-            Ver ubicación
-          </a>
-        </div>
+      <div class="hero-actions">
+        <a href="mapa.html" class="btn btn-primary">Explorar el mapa <span aria-hidden="true">→</span></a>
+        <a
+          href="https://maps.app.goo.gl/wZyaDkqFVovWxBH16"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-secondary"
+        >Cómo llegar</a>
       </div>
 
-      <div class="info-panel">
-        <div class="info-box">
-          <h2>Conecta con nosotros</h2>
-          <div class="social-links">
-            <a href="https://www.instagram.com/tierrasgosen/" target="_blank" class="social-btn">Instagram</a>
-            <a href="https://www.facebook.com/profile.php?id=61565432173115" target="_blank" class="social-btn">Facebook</a>
-            <a href="https://api.whatsapp.com/send/?phone=50688782626&text&type=phone_number&app_absent=0" target="_blank" class="social-btn">Contacto  </a>
-            <a href="https://www.tiktok.com/@tierrasgosen?is_from_webapp=1&sender_device=pc" target="_blank" class="social-btn">TikTok</a>
-          </div>
-        </div>
+      <ul class="quick-facts" aria-label="Qué puedes encontrar">
+        <li><strong>15</strong><span>lugares para descubrir</span></li>
+        <li><strong>5</strong><span>tipos de experiencia</span></li>
+        <li><strong>1</strong><span>mapa fácil de explorar</span></li>
+      </ul>
+    </section>
 
-        <div class="info-box">
-          <h2>Antes de comenzar</h2>
-          <p>
-            Ingresa al mapa para consultar los puntos de interés, ubicar zonas importantes
-            y explorar la propiedad desde tu dispositivo móvil o computadora.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
+    <footer class="social-footer">
+      <span>Síguenos</span>
+      <nav aria-label="Redes sociales">
+        <a href="https://www.instagram.com/tierrasgosen/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61565432173115" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://api.whatsapp.com/send/?phone=50688782626&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </nav>
+    </footer>
+  </main>
 </body>
 </html>
