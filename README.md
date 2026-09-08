@@ -32,7 +32,7 @@ Sitio web mobile-first para orientar a los visitantes de Tierras Gosén mediante
 - Node.js 22 para compilación, validaciones y pruebas
 - GitHub Actions para integración continua
 
-El mapa continúa siendo público. Los datos se sirven desde una API respaldada por D1 y las imágenes nuevas se guardan en R2. Si la API no está disponible, el mapa conserva `data/puntos.json` como contenido inicial de respaldo. Leaflet se carga desde un CDN.
+La experiencia está preparada para mantener el mapa público y el módulo `/admin` privado. La primera versión desplegada permanece temporalmente restringida al propietario mientras se revisa. Los datos se sirven desde una API respaldada por D1 y las imágenes nuevas se guardan en R2. Si la API no está disponible, el mapa conserva `data/puntos.json` como contenido inicial de respaldo. Leaflet se carga desde un CDN.
 
 ## Ejecutar el proyecto localmente
 
@@ -165,6 +165,14 @@ GitHub Actions ejecuta las mismas comprobaciones en cada pull request y en los c
 ## Despliegue
 
 El proyecto ahora necesita un entorno compatible con Cloudflare Workers, D1 y R2. La configuración de despliegue está en `.openai/hosting.json` y la migración SQL inicial en `drizzle/`.
+
+### Versión publicada
+
+- Sitio: <https://mapa-tierras-gosen.stryker1350.chatgpt.site>
+- Estado actual: acceso privado para revisión.
+- Panel administrativo: `/admin`.
+
+Cuando se habilite el acceso público del sitio, el mapa y la portada podrán visitarse sin iniciar sesión. El panel `/admin` seguirá protegido mediante inicio de sesión y la lista `ADMIN_EMAILS`; las operaciones administrativas también validan esta autorización en el servidor.
 
 ## Seguridad del panel
 
