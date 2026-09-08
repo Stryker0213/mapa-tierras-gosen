@@ -25,40 +25,41 @@ Sitio web mobile-first para orientar a los visitantes de Tierras Gosén mediante
 - HTML5 y CSS3
 - JavaScript sin frameworks
 - Leaflet 1.9.4
-- JSON para los puntos de interés
-- Node.js 20 para validaciones y pruebas
+- Cloudflare D1 (SQL) para los puntos de interés
+- Cloudflare R2 para las imágenes nuevas
+- Inicio de sesión con ChatGPT y lista privada de administradores
+- React y Vinext para el panel administrativo
+- Node.js 22 para compilación, validaciones y pruebas
 - GitHub Actions para integración continua
 
-El sitio público es estático y no necesita un servidor de aplicación. Leaflet se carga actualmente desde un CDN, por lo que el mapa requiere conexión a Internet para obtener esa biblioteca.
+El mapa continúa siendo público. Los datos se sirven desde una API respaldada por D1 y las imágenes nuevas se guardan en R2. Si la API no está disponible, el mapa conserva `data/puntos.json` como contenido inicial de respaldo. Leaflet se carga desde un CDN.
 
 ## Ejecutar el proyecto localmente
 
-El archivo de puntos se obtiene con `fetch`, por lo que el proyecto debe abrirse mediante un servidor HTTP y no directamente con `file://`.
-
-### Opción con Python
+Instala las dependencias y abre el entorno local:
 
 ```bash
 git clone https://github.com/Stryker0213/mapa-tierras-gosen.git
 cd mapa-tierras-gosen
-python3 -m http.server 8000
+npm install
+npm run dev
 ```
 
 Después abre:
 
-- Portada: <http://127.0.0.1:8000/index.html>
-- Mapa: <http://127.0.0.1:8000/mapa.html>
-
-### Opción con Node.js
-
-```bash
-npx serve .
-```
+- Portada: <http://localhost:3000/>
+- Mapa: <http://localhost:3000/mapa.html>
+- Administración: <http://localhost:3000/admin>
 
 ## Estructura principal
 
 ```text
 .
 ├── .github/workflows/validate.yml  # Validación continua
+├── .openai/hosting.json            # Base, archivos y proyecto de despliegue
+├── app/
+│   ├── admin/                      # Editor privado y adaptable
+│   └── api/                        # Puntos, autorización e imágenes
 ├── assets/
 │   ├── icons/                      # Iconos de categorías
 │   └── logos/                      # Recursos de identidad visual
@@ -71,17 +72,29 @@ npx serve .
 │   └── Imagenes*/                  # Fotografías de los lugares
 ├── js/
 │   ├── filters.js                  # Búsqueda y filtrado
-│   ├── map.js                      # Mapa, marcadores y controles
-│   └── firebase-config.js          # Configuración reservada para Firebase
+│   └── map.js                      # Mapa, marcadores y controles
+├── db/schema.ts                    # Esquema SQL de puntos
+├── drizzle/                        # Migraciones versionadas
 ├── scripts/validate-content.mjs    # Validador de datos y archivos
 ├── test/filters.test.cjs           # Pruebas unitarias
-├── index.html                      # Portada
+├── vite.config.ts                  # Compilación y servicios enlazados
 └── mapa.html                       # Experiencia del mapa
 ```
 
 ## Administrar puntos de interés
 
-Actualmente los puntos se administran en [`data/puntos.json`](data/puntos.json). Cada elemento utiliza esta estructura:
+El panel privado está disponible en `/admin`. Solo las cuentas incluidas en la variable segura `ADMIN_EMAILS` pueden entrar; la comprobación se realiza tanto para la página como para cada operación de escritura.
+
+Desde el panel se puede:
+
+- Crear, editar y eliminar puntos de interés.
+- Mostrar u ocultar un punto sin borrarlo.
+- Colocar el marcador con un clic o arrastrarlo sobre el mapa.
+- Ajustar la posición un píxel a la vez o alinearla a una cuadrícula de 5 px.
+- Subir varias imágenes JPG, PNG, WebP o AVIF de hasta 8 MB.
+- Editar categoría, descripción y enlace de reservación.
+
+[`data/puntos.json`](data/puntos.json) conserva los 15 puntos originales como semilla. Los cambios del panel se guardan como registros SQL que reemplazan esa base inicial. Cada punto mantiene esta estructura pública:
 
 ```json
 {
@@ -113,7 +126,7 @@ Actualmente los puntos se administran en [`data/puntos.json`](data/puntos.json).
 
 Leaflet recibe cada posición como `[y, x]`. El sistema de coordenadas corresponde al fondo `images/mapa.jpg`, cuyas dimensiones de referencia son **1280 × 853 px**. Si se cambia esa proporción, también deben revisarse los límites y las posiciones en `js/map.js`.
 
-Después de modificar los datos, ejecuta `npm run check`. El validador detecta identificadores repetidos, categorías incorrectas, coordenadas fuera del mapa, imágenes inexistentes y enlaces inválidos.
+Después de modificar la semilla, ejecuta `npm run check`. El validador detecta identificadores repetidos, categorías incorrectas, coordenadas fuera del mapa, imágenes inexistentes y enlaces inválidos.
 
 ## Imágenes de los lugares
 
@@ -128,7 +141,7 @@ Para mantener una apariencia consistente y una descarga rápida en móviles:
 
 ## Validaciones
 
-Requiere Node.js 20 o posterior.
+Requiere Node.js 22.13 o posterior.
 
 ```bash
 npm run check
@@ -139,6 +152,7 @@ El comando realiza:
 1. Comprobación de sintaxis de JavaScript.
 2. Validación de `data/puntos.json` y sus archivos relacionados.
 3. Pruebas unitarias de búsqueda y filtrado.
+4. Verificación de tipos y compilación de todas las rutas públicas y privadas.
 
 También puedes ejecutar solamente las pruebas:
 
@@ -150,18 +164,15 @@ GitHub Actions ejecuta las mismas comprobaciones en cada pull request y en los c
 
 ## Despliegue
 
-Puede publicarse en cualquier servicio de alojamiento estático, como GitHub Pages, Firebase Hosting, Netlify o Cloudflare Pages. El directorio publicado debe ser la raíz del repositorio y debe conservar las rutas relativas de `assets`, `css`, `data`, `images` y `js`.
+El proyecto ahora necesita un entorno compatible con Cloudflare Workers, D1 y R2. La configuración de despliegue está en `.openai/hosting.json` y la migración SQL inicial en `drizzle/`.
 
-## Evolución prevista
+## Seguridad del panel
 
-La siguiente etapa recomendada es un panel administrativo protegido que permita crear, editar y desactivar puntos, colocar marcadores sobre el mapa y subir imágenes sin modificar el código. La arquitectura prevista utiliza:
-
-- Firebase Authentication para el acceso administrativo.
-- Cloud Firestore para los datos de los puntos.
-- Cloud Storage para las imágenes.
-- Reglas de seguridad para limitar las escrituras a usuarios autorizados.
-
-Hasta que esa etapa sea implementada, `data/puntos.json` continúa siendo la fuente oficial del contenido.
+- La ruta `/admin` redirige a inicio de sesión.
+- Una sesión válida no basta: el correo también debe aparecer en `ADMIN_EMAILS`.
+- Las API de creación, edición, eliminación y carga de imágenes repiten la misma autorización en el servidor.
+- El mapa público solo recibe puntos marcados como activos.
+- Las imágenes se validan por formato y tamaño antes de guardarse.
 
 ## Flujo de contribución
 

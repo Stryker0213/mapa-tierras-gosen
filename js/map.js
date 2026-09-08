@@ -223,7 +223,7 @@ function actualizarEstadoSidebar(colapsado) {
     setTimeout(() => map.invalidateSize(), 280);
 }
 
-fetch('data/puntos.json')
+fetch('/api/puntos')
     .then(response => {
         if (!response.ok) throw new Error(`Respuesta HTTP ${response.status}`);
         return response.json();
@@ -233,9 +233,17 @@ fetch('data/puntos.json')
         todosLosPuntos = puntos;
         renderizarPuntos();
     })
-    .catch(error => {
-        console.error('Error cargando puntos:', error);
-        mostrarErrorCarga();
+    .catch(async error => {
+        console.warn('La base de datos no está disponible; usando contenido local.', error);
+        try {
+            const response = await fetch('data/puntos.json');
+            if (!response.ok) throw new Error(`Respuesta HTTP ${response.status}`);
+            todosLosPuntos = await response.json();
+            renderizarPuntos();
+        } catch (fallbackError) {
+            console.error('Error cargando puntos:', fallbackError);
+            mostrarErrorCarga();
+        }
     });
 
 botonesFiltro.forEach(boton => {

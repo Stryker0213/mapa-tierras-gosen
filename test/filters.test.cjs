@@ -1,6 +1,11 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { filtrarPuntos, normalizarTexto } = require('../js/filters.js');
+const fs = require('node:fs');
+const vm = require('node:vm');
+
+const context = vm.createContext({});
+vm.runInContext(fs.readFileSync(new URL('../js/filters.js', `file://${__filename}`), 'utf8'), context);
+const { filtrarPuntos, normalizarTexto } = context.PointFilters;
 
 const points = [
     { nombre: 'Cabaña El Domo', descripcion: 'Hospedaje ecológico', categoria: 'alojamiento', activo: true },

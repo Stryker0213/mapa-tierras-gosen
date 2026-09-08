@@ -62,6 +62,7 @@ for (const htmlFile of ['index.html', 'mapa.html']) {
 
     for (const [, reference] of references) {
         if (/^(?:https?:|data:|mailto:|tel:)/.test(reference)) continue;
+        if (reference === '/') continue;
         const localPath = reference.split(/[?#]/, 1)[0];
         assert(await fileExists(localPath), `${htmlFile} referencia un archivo inexistente: ${localPath}.`);
     }
